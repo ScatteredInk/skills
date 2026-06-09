@@ -139,3 +139,5 @@ Wire it into a `SessionStart` hook so the check runs **every session, even when 
 ```
 
 Adjust the path to wherever this skills repo lives.
+
+**Opt-out:** a repo that uses ADRs/`CONTEXT.md` but isn't on this workflow can drop a `.no-agent-skills` file at its root to silence the check there permanently — so the global hook never nags repos you don't want set up.

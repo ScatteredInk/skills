@@ -9,6 +9,12 @@ set -uo pipefail
 
 root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
+# Per-repo opt-out: a repo that uses ADRs/CONTEXT.md but is NOT on this workflow
+# can drop a `.no-agent-skills` file at its root to silence the check for good.
+if [ -e "$root/.no-agent-skills" ]; then
+  exit 0
+fi
+
 # Already configured? The `## Agent skills` block (CLAUDE.md/AGENTS.md) or docs/agents/.
 if grep -qsE '^##[[:space:]]+Agent skills' "$root/CLAUDE.md" "$root/AGENTS.md" 2>/dev/null \
    || [ -d "$root/docs/agents" ]; then
