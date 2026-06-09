@@ -60,7 +60,7 @@ Show counts and a one-line summary per issue. Let the maintainer pick.
 
 ## Triage a specific issue
 
-1. **Gather context.** Read the full issue (body, comments, labels, reporter, dates). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Read `.out-of-scope/*.md` and surface any prior rejection that resembles this issue.
+1. **Gather context.** Read the full issue (body, comments, labels, reporter, dates). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Read `.out-of-scope/*.md` and surface any prior rejection that resembles this issue. Check the issue against the current ADRs/`CONTEXT.md` — acceptance criteria can be stale (see *Superseded issues* below).
 
 2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the issue. Wait for direction.
 
@@ -75,6 +75,12 @@ Show counts and a one-line summary per issue. Let the maintainer pick.
    - `wontfix` (bug) — polite explanation, then close.
    - `wontfix` (enhancement) — write to `.out-of-scope/`, link to it from a comment, then close ([OUT-OF-SCOPE.md](OUT-OF-SCOPE.md)).
    - `needs-triage` — apply the role. Optional comment if there's partial progress.
+
+## Superseded issues
+
+An issue's acceptance criteria can go stale when a later ADR or decision supersedes it — the issue is written, a subsequent decision changes the approach, and the criteria silently no longer match. When you triage such an issue, do **not** mark it ready (or implement it) against the stale criteria: rewrite the acceptance criteria and the agent brief to match the current ADRs/`CONTEXT.md`, then proceed. A heads-up *comment* on the issue is not enough — an implementer reads the acceptance-criteria checklist as the spec, so a comment is easily under-weighted against it.
+
+Symmetrically, when **you** land a decision or ADR that supersedes existing issues, re-triage the affected issues at that point — updating their criteria — rather than only commenting. Superseding is a triage action, not a comment.
 
 ## Quick state override
 

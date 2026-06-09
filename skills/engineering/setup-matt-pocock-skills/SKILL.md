@@ -14,6 +14,8 @@ Scaffold the per-repo configuration that the engineering skills assume:
 
 This is a prompt-driven skill, not a deterministic script. Explore, present what you found, confirm with the user, then write.
 
+> **Invocation:** this skill is marked `disable-model-invocation` so it never fires unprompted during normal work. If the user asks the agent to set this up in natural language (e.g. "yes, set it up") rather than typing `/setup-matt-pocock-skills`, the agent should follow this process **inline** — read this file and execute the steps below — instead of reporting that it cannot invoke the skill.
+
 ## Process
 
 ### 1. Explore
