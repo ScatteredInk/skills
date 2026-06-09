@@ -121,3 +121,23 @@ For "other" issue trackers, write `docs/agents/issue-tracker.md` from scratch us
 ### 5. Done
 
 Tell the user the setup is complete and which engineering skills will now read from these files. Mention they can edit `docs/agents/*.md` directly later — re-running this skill is only necessary if they want to switch issue trackers or restart from scratch.
+
+## Programmatic check (`check-setup.sh`)
+
+This folder ships [`check-setup.sh`](./check-setup.sh). It exits silently if the repo is already configured (the `## Agent skills` block, or `docs/agents/`), and otherwise — when the repo has `CONTEXT.md`/`docs/adr/`, i.e. it uses this workflow — prints a one-line nudge to run this skill. It never blocks (always exits 0), and stays silent in unrelated repos.
+
+Wire it into a `SessionStart` hook so the check runs **every session, even when no skill is invoked** — the failure mode a per-skill preflight can't catch (an agent going straight to code without invoking triage/to-issues). In `~/.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "bash \"$HOME/code/skills/skills/engineering/setup-matt-pocock-skills/check-setup.sh\"" } ] }
+    ]
+  }
+}
+```
+
+Adjust the path to wherever this skills repo lives.
+
+**Opt-out:** a repo that uses ADRs/`CONTEXT.md` but isn't on this workflow can drop a `.no-agent-skills` file at its root to silence the check there permanently — so the global hook never nags repos you don't want set up.
