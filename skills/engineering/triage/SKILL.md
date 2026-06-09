@@ -62,7 +62,7 @@ Show counts and a one-line summary per issue. Let the maintainer pick.
 
 1. **Gather context.** Read the full issue (body, comments, labels, reporter, dates). Parse any prior triage notes so you don't re-ask resolved questions. Explore the codebase using the project's domain glossary, respecting ADRs in the area. Read `.out-of-scope/*.md` and surface any prior rejection that resembles this issue. Check the issue against the current ADRs/`CONTEXT.md` — acceptance criteria can be stale (see *Superseded issues* below).
 
-2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the issue. Wait for direction.
+2. **Recommend.** Tell the maintainer your category and state recommendation with reasoning, plus a brief codebase summary relevant to the issue. Wait for direction. Do not recommend `ready-for-agent` for an issue that rests on an unmade determinative decision (see *Undecided foundations* below).
 
 3. **Reproduce (bugs only).** Before any grilling, attempt reproduction: read the reporter's steps, trace the relevant code, run tests or commands. Report what happened — successful repro with code path, failed repro, or insufficient detail (a strong `needs-info` signal). A confirmed repro makes a much stronger agent brief.
 
@@ -81,6 +81,10 @@ Show counts and a one-line summary per issue. Let the maintainer pick.
 An issue's acceptance criteria can go stale when a later ADR or decision supersedes it — the issue is written, a subsequent decision changes the approach, and the criteria silently no longer match. When you triage such an issue, do **not** mark it ready (or implement it) against the stale criteria: rewrite the acceptance criteria and the agent brief to match the current ADRs/`CONTEXT.md`, then proceed. A heads-up *comment* on the issue is not enough — an implementer reads the acceptance-criteria checklist as the spec, so a comment is easily under-weighted against it.
 
 Symmetrically, when **you** land a decision or ADR that supersedes existing issues, re-triage the affected issues at that point — updating their criteria — rather than only commenting. Superseding is a triage action, not a comment.
+
+## Undecided foundations (do not mark ready)
+
+An issue is not `ready-for-agent` if it rests on a **determinative decision** — a platform, core dependency, data format, or subsystem choice that forces other choices — which is not yet settled in an ADR / `CONTEXT.md`. The tell is an acceptance criterion (or "what to build") that names a specific library, technology, or mechanism with no ADR behind it: that is an unmade decision wearing a criterion's clothes, and handing it to an agent lets the agent settle it by convenience — exactly the expensive mid-build pivot this gate exists to prevent. When you find one, route it to `/grill-with-docs` to make the decision (with evidence) and write the ADR *first*; only then mark it ready, with the criteria restated as observable behaviour and the choice recorded under the issue's *Decisions this rests on*.
 
 ## Quick state override
 
