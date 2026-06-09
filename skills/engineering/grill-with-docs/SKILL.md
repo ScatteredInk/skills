@@ -5,11 +5,11 @@ description: Grilling session that challenges your plan against the existing dom
 
 <what-to-do>
 
-Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one-by-one. For each question, provide your recommended answer.
+Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Map the decisions as a dependency tree and resolve them in **determinacy order**: start with the *determinative* decisions — the ones whose answer forces other answers (the platform, the core dependency, or the data format a whole subsystem rests on) — and only then the decisions they constrain. Never resolve a derived decision before its determinant; settle a downstream choice first and a later upstream decision can silently invalidate it and waste the work spent on it. For each question, provide your recommended answer.
 
 Ask the questions one at a time, waiting for feedback on each question before continuing.
 
-If a question can be answered by exploring the codebase, explore the codebase instead.
+If a question can be answered by exploring the codebase, explore the codebase instead. If it turns on a comparative technical claim ("X is better than Y for Z"), gather the evidence before recommending — explore the code, and fetch external docs or benchmarks when the answer lives outside the repo. Do not recommend from memory on a load-bearing claim.
 
 </what-to-do>
 
@@ -53,6 +53,14 @@ Create files lazily — only when you have something to write. If no `CONTEXT.md
 
 ## During the session
 
+### Resolve the determinative decisions first
+
+Before diving into details, find the decisions that *force* other decisions — the platform, the core dependency, the data format, the subsystem a feature is really built on. Decide those (or flag them for an ADR) before anything that depends on them. A thin "let's just get something working" choice made early often commits a determinative decision by convenience rather than derivation; name it as a decision and make it deliberately. When a determinative decision lands, record its forced consequences *as derived* — choices the determinant dictates — so a later step can't re-open them as if they were free. Decide an interacting subsystem as a *whole*: components that constrain each other chosen together, not one at a time, because piecemeal choices on interdependent parts are what produce mid-build pivots.
+
+### Demand evidence before crystallising a decision
+
+A recommendation on a load-bearing or hard-to-reverse choice needs evidence, not recall. Gather it — benchmarks, library docs, the code itself — and show it before settling the decision. An assertion like "X has stronger support than Y" is not settled until you've checked; until then it is an assumption, and the grill exists to expose assumptions, not to ratify them.
+
 ### Challenge against the glossary
 
 When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y — which is it?"
@@ -82,6 +90,8 @@ Only offer to create an ADR when all three are true:
 1. **Hard to reverse** — the cost of changing your mind later is meaningful
 2. **Surprising without context** — a future reader will wonder "why did they do it this way?"
 3. **The result of a real trade-off** — there were genuine alternatives and you picked one for specific reasons
+
+An ADR that rests on a comparative claim must cite the evidence behind it; if you don't have evidence yet, tag the claim `ASSUMED — validate before relying` rather than writing it as settled fact.
 
 If any of the three is missing, skip the ADR. Use the format in [ADR-FORMAT.md](./ADR-FORMAT.md).
 

@@ -23,6 +23,8 @@ If you have not already explored the codebase, do so to understand the current s
 
 Break the plan into **tracer bullet** issues. Each issue is a thin vertical slice that cuts through ALL integration layers end-to-end, NOT a horizontal slice of one layer.
 
+Tracer-bullet slicing assumes the architectural skeleton is already decided — and it isn't always. A thin slice can be built on *any* foundation, so if a **determinative decision** (platform, core dependency, data format) is still open, the first slice will silently settle it, usually by convenience, often wrong, and expensive to undo later. Before slicing, confirm the determinative decisions are made and captured in ADRs. If one is still open, *that decision is the first piece of work* — a HITL slice or a `/grill-with-docs` session — not something to discover inside a tracer bullet.
+
 Slices may be 'HITL' or 'AFK'. HITL slices require human interaction, such as an architectural decision or a design review. AFK slices can be implemented and merged without human interaction. Prefer AFK over HITL where possible.
 
 <vertical-slice-rules>
@@ -66,7 +68,13 @@ A concise description of this vertical slice. Describe the end-to-end behavior, 
 
 Avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it here and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
 
+## Decisions this rests on
+
+The load-bearing decisions this slice assumes. Mark each *settled* (link the ADR / `CONTEXT.md` entry) or *open* (must be resolved — usually via `/grill-with-docs` — before this issue is `ready-for-agent`). This is where a choice of platform, library, mechanism, or data shape belongs, so it is visible as a decision rather than buried in the criteria as if already settled. Omit only if the slice genuinely rests on nothing not already in an ADR.
+
 ## Acceptance criteria
+
+State **observable behaviour**, not mechanism. "The page still loads when the cache is empty" — not "falls back to the database". If a criterion names a specific library, technology, or mechanism, that is a decision hiding in the checklist: move it up to *Decisions this rests on* and leave the criterion describing what the reader/caller observes.
 
 - [ ] Criterion 1
 - [ ] Criterion 2

@@ -11,11 +11,13 @@ The issue tracker and triage label vocabulary should have been provided to you �
 
 1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the PRD, and respect any ADRs in the area you're touching.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can.
+2. Identify the **determinative decisions** — the choices that force other choices (the platform, a core dependency, the data format, the subsystem the feature really rests on). Make these *first*, before sketching seams or stories. A foundational decision settled late, or chosen by convenience inside a thin slice, is the classic cause of expensive mid-build pivots and rebuilds. Where a determinative decision is hard to reverse, surprising, or a genuine trade-off, it needs an ADR: run `/grill-with-docs` to settle it (with evidence) before writing the PRD. Record each forced consequence *as derived* — a choice the determinant dictates — so nothing downstream re-opens it as a free choice.
+
+3. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can.
 
 Check with the user that these seams match their expectations.
 
-3. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+4. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
 
 <prd-template>
 
@@ -41,7 +43,7 @@ This list of user stories should be extremely extensive and cover all aspects of
 
 ## Implementation Decisions
 
-A list of implementation decisions that were made. This can include:
+A list of decisions that were made, **led by the determinative ones** — the choices that force other choices. Mark each as *settled* (link the ADR) or *open* (must be resolved before any dependent slice is built), and record a forced consequence as *derived* from its determinant rather than as an independent choice. This can include:
 
 - The modules that will be built/modified
 - The interfaces of those modules that will be modified
